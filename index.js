@@ -20,7 +20,7 @@ module.exports = ButtonSet;
 /**
  * Initialize a new `ButtonSet`.
  *
- * @param {Element} el reference (container) element (NOTE: not String)
+ * @param {Element|String} el reference (container) element
  * @param {Object} opts options
  *
  *  - buttons {Array} initial buttons
@@ -34,6 +34,8 @@ module.exports = ButtonSet;
 function ButtonSet(el, opts) {
   if (!(this instanceof ButtonSet)) return new ButtonSet(el, opts);
   Emitter(this);
+
+  if ('string' == typeof el) el = document.querySelector(el);
 
   View.call(this, {}, el);   // note model not used yet
 

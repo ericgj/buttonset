@@ -43,7 +43,7 @@
     <script>
       var ButtonSet = require('buttonset');
 
-      var bset = new ButtonSet(document.querySelector('.buttonset-placeholder'));
+      var bset = new ButtonSet('.buttonset-placeholder');
       bset.add('A');
       bset.add('B', 'C', 'D');
 
@@ -58,7 +58,7 @@
       });
 
 
-      var bset2 = new ButtonSet(document.querySelector('.buttonset-placeholder-2'), {
+      var bset2 = new ButtonSet('.buttonset-placeholder-2', {
         buttons: ['Maradona', 'Pele', 'Van Basten', 'Beckenbauer'],
         select: 3,
         unselectable: true

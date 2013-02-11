@@ -5,9 +5,12 @@
  */
 
 var Emitter = require('emitter')
+  , View    = require('view')
   , classes = require('classes')
   , inherit = require('inherit')
-  , o = require('jquery');
+  , domify  = require('domify');
+
+var buttonEl = domify('<a href="#"></a>')[0];
 
 /**
  * Expose `ButtonSet`.
@@ -18,7 +21,7 @@ module.exports = ButtonSet;
 /**
  * Initialize a new `ButtonSet`.
  *
- * @param {String|Object} el reference element
+ * @param {Element} el reference (container) element (NOTE: not String)
  * @param {Object} opts options
  *
  *  - buttons {Array} initial buttons
@@ -31,10 +34,11 @@ module.exports = ButtonSet;
 
 function ButtonSet(el, opts) {
   if (!(this instanceof ButtonSet)) return new ButtonSet(el, opts);
-  Emitter.call(this);
+  Emitter(this);
 
-  this.el = o(el);
-  classes(this.el.get(0)).add('buttonset');
+  View.call(this, {}, el);   // note model not used yet
+
+  classes(this.el).add('buttonset');
   this.options = opts || {};
 
   // add buttons
@@ -49,29 +53,33 @@ function ButtonSet(el, opts) {
 
   if ('undefined' != typeof this.options.select) this.set(this.options.select);
 
-  // bind click event to options
-  this.el.on('click', 'a', this.onSet.bind(this));
+  // bind click event to onSet
+  this.bind('click ' + buttonEl.nodeName, 'onSet');
 
   return this;
 }
 
 /**
- * Inherits from `Emitter.prototype`.
+ * Inherits from `View.prototype`.
  */
 
-inherit(ButtonSet, Emitter);
+// inherit(ButtonSet, View);
+ButtonSet.prototype.__proto__ = View.prototype;
 
 /**
- * Add a new option
+ * Add a new button option
  *
- * @param {String|jQuery} button button/buttons to add
+ * @param {String} button button/buttons to add
  * @api public
  */
 
 ButtonSet.prototype.add = function(){
-  for (var i = 0; i < arguments.length; i++) {
-    this.el.append(o('<a href="#">' +  arguments[i] + '</a>'));
+  for (var i = 0; i < arguments.length; ++i) {
+    var b = buttonEl.cloneNode(true);
+    b.innerHTML = arguments[i];
+    this.el.appendChild(b);
   }
+  return this;
 };
 
 /**
@@ -84,14 +92,19 @@ ButtonSet.prototype.add = function(){
 ButtonSet.prototype.onSet = function(e){
   if (classes(e.target).has('selected')) {
     if (!this.options.unselectable) return;
-    return this.unset(o(e.target));
+    return this.unset(e.target);
   }
 
-  if (!this.options.multiple && this.el.find('.selected').length) {
-    this.unset(this.el.find('.selected'));
+  if (!this.options.multiple) {
+    var selected = this.el.querySelectorAll('.selected');
+    if (selected.length) {
+      for (var i=0; i<selected.length; ++i) {
+        this.unset(selected[i]);
+      }
+    }
   }
 
-  this.set(o(e.target));
+  this.set(e.target);
 };
 
 /**
@@ -99,7 +112,7 @@ ButtonSet.prototype.onSet = function(e){
  *
  * Emits `set` (el, index) event
  *
- * @param {jQuery|Number} button option to select
+ * @param {Element|Number} button option to select
  * @api public
  */
 
@@ -112,7 +125,7 @@ ButtonSet.prototype.set = function(button){
  *
  * Emits `unset` (el, index) event
  *
- * @param {jQuery|Number} button option to select
+ * @param {Element|Number} button option to select
  * @api public
  */
 
@@ -123,16 +136,21 @@ ButtonSet.prototype.unset = function(button){
 /**
  * Set/Unset the given button
  *
- * @param {jQuery|Number} button option to select
+ * @param {Element|Number} button option to select
  * @param {Boolean} set defines set or unset button
  * @api private
  */
 
 ButtonSet.prototype.change = function(button, set){
-  button = 'number' == typeof button ? this.el.find('a').eq(button) : button;
-  if (!button.length) return false;
+  button = 'number' == typeof button ? this.el.children[button] : button;
+  var index = this.getButtonIndex(button);
 
-  classes(button.get(0))[set ? 'add' : 'remove']('selected');
-  this.emit(set ? 'set' : 'unset', button, button.prevAll().length);
+  classes(button)[set ? 'add' : 'remove']('selected');
+  this.emit(set ? 'set' : 'unset', button, this.getButtonIndex(button));
   return true;
 };
+
+ButtonSet.prototype.getButtonIndex = function(button) {
+  return 0;  // not implemented yet 
+}
+

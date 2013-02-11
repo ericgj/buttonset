@@ -6,9 +6,10 @@
   "keywords": ["buttonset"],
   "dependencies": {
     "component/emitter": "*",
-    "component/jquery": "*",
+    "component/view": "*",
     "component/inherit": "*",
-    "component/classes": "*"
+    "component/classes": "*",
+    "component/domify": "*"
   },
   "development": {},
   "scripts": [

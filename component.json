@@ -7,7 +7,6 @@
   "dependencies": {
     "component/emitter": "*",
     "component/view": "*",
-    "component/inherit": "*",
     "component/classes": "*",
     "component/domify": "*"
   },

@@ -7,7 +7,6 @@
 var Emitter = require('emitter')
   , View    = require('view')
   , classes = require('classes')
-  , inherit = require('inherit')
   , domify  = require('domify');
 
 var buttonEl = domify('<a href="#"></a>')[0];
@@ -63,7 +62,6 @@ function ButtonSet(el, opts) {
  * Inherits from `View.prototype`.
  */
 
-// inherit(ButtonSet, View);
 ButtonSet.prototype.__proto__ = View.prototype;
 
 /**

@@ -7,9 +7,11 @@
 var Emitter = require('emitter')
   , View    = require('view')
   , classes = require('classes')
+  , data    = require('data')
   , domify  = require('domify');
 
 var buttonEl = domify('<a href="#"></a>')[0];
+var indexAttr = 'button-index';
 
 /**
  * Expose `ButtonSet`.
@@ -41,6 +43,7 @@ function ButtonSet(el, opts) {
 
   classes(this.el).add('buttonset');
   this.options = opts || {};
+  this.length = 0;
 
   // add buttons
   if (this.options.buttons) {
@@ -74,9 +77,10 @@ ButtonSet.prototype.__proto__ = View.prototype;
  */
 
 ButtonSet.prototype.add = function(){
-  for (var i = 0; i < arguments.length; ++i) {
+  for (var i = 0; i < arguments.length; i++) {
     var b = buttonEl.cloneNode(true);
     b.innerHTML = arguments[i];
+    b.setAttribute('data-'+indexAttr, this.length++);
     this.el.appendChild(b);
   }
   return this;
@@ -98,7 +102,7 @@ ButtonSet.prototype.onSet = function(e){
   if (!this.options.multiple) {
     var selected = this.el.querySelectorAll('.selected');
     if (selected.length) {
-      for (var i=0; i<selected.length; ++i) {
+      for (var i=0; i<selected.length; i++) {
         this.unset(selected[i]);
       }
     }
@@ -151,6 +155,6 @@ ButtonSet.prototype.change = function(button, set){
 };
 
 ButtonSet.prototype.getButtonIndex = function(button) {
-  return 0;  // not implemented yet 
+  return data(button).get(indexAttr);
 }
 

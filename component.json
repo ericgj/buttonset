@@ -8,7 +8,8 @@
     "component/emitter": "*",
     "component/view": "*",
     "component/classes": "*",
-    "component/domify": "*"
+    "component/domify": "*",
+    "yields/data": "*"
   },
   "development": {},
   "scripts": [

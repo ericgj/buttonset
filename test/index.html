@@ -50,11 +50,11 @@
       bset.set(1);
 
       bset.on('set', function(button, index){
-        console.log('SET button "%s". index: %s', button.text(), index);
+        console.log('SET button "%s". index: %s', button.innerHTML, index);
       });
 
       bset.on('unset', function(button, index){
-        console.log('UNSET button "%s". index: %s', button.text(), index);
+        console.log('UNSET button "%s". index: %s', button.innerHTML, index);
       });
 
 
@@ -65,7 +65,7 @@
       });
 
 
-      var bset3 = new ButtonSet('.buttonset-placeholder-3', {
+      var bset3 = new ButtonSet(document.querySelector('.buttonset-placeholder-3'), {
         buttons: ['Apple', 'Banana', 'Lemon', 'Strawberry', 'Peach'],
         multiple: true
       });

@@ -6,13 +6,15 @@
   "keywords": ["buttonset"],
   "dependencies": {
     "component/emitter": "*",
-    "component/jquery": "*",
-    "component/inherit": "*",
-    "component/classes": "*"
+    "component/delegate": "*",
+    "component/classes": "*",
+    "component/domify": "*",
+    "yields/data": "*"
   },
   "development": {},
   "scripts": [
-    "index.js"
+    "index.js",
+    "template-button.js"
   ],
   "styles": [
     "buttonset.css"

@@ -1,0 +1,1 @@
+module.exports = '<a href="#"></a>\n';

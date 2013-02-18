@@ -2,13 +2,20 @@
   "name": "buttonset",
   "repo": "ericgj/buttonset",
   "description": "Buttonset component",
-  "version": "0.1.1",
-  "keywords": ["buttonset"],
+  "version": "0.2.1",
+  "keywords": [
+    "buttonset",
+    "buttongroup",
+    "buttonbar",
+    "radio",
+    "ui"
+  ],
   "dependencies": {
     "component/emitter": "*",
     "component/delegate": "*",
     "component/classes": "*",
     "component/domify": "*",
+    "component/event": "*",
     "yields/data": "*"
   },
   "development": {},

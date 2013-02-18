@@ -7,6 +7,7 @@ var Emitter   = require('emitter')
   , classes   = require('classes')
   , data      = require('data')
   , domify    = require('domify')
+  , event     = require('event')
 
 /**
  * Expose `ButtonSet`.
@@ -71,7 +72,7 @@ ButtonSet.prototype.add = function(text,fn){
   var b = domify('<button>')[0];
   b.innerHTML = text;
   b.setAttribute('data-'+this.buttonSlug, slug); 
-  if (fn) b.onclick = function(e){fn(e)};
+  if (fn) event.bind(b, 'click', function(e){fn(e)});
   this.el.appendChild(b);
 
   return this;
@@ -85,16 +86,16 @@ ButtonSet.prototype.remove = function(slug){
 };
 
 /**
- * onclick event handler (delegated from button)
+ * Set button (element or slug) to select
  *
- * @param {Object} e event object
- * @api private
+ * @param {Element|String} button element or slug
+ * @api public
  */
-
-ButtonSet.prototype.onclick = function(e){
-  if (classes(e.target).has('selected')) {
+ButtonSet.prototype.set = function(button){
+  if ('string'== typeof button) button = this.getButtonElement(button);
+  if (classes(button).has('selected')) {
     if (!this.unselectable) return;
-    return this.deselectEl(e.target);
+    return this.deselectEl(button);
   }
 
   if (!this.multiple) {
@@ -106,7 +107,28 @@ ButtonSet.prototype.onclick = function(e){
     }
   }
 
-  return this.selectEl(e.target);
+  return this.selectEl(button);
+};
+
+/**
+ * Get button element from slug
+ *
+ * @api public
+ */
+
+ButtonSet.prototype.getButtonElement = function(slug) {
+  return this.el.querySelector('[data-'+this.buttonSlug+'='+slug+']'); 
+};
+
+/**
+ * onclick event handler (delegated from button)
+ *
+ * @param {Object} e event object
+ * @api private
+ */
+
+ButtonSet.prototype.onclick = function(e){
+  return this.set(e.target);
 };
 
 /**
@@ -137,7 +159,7 @@ ButtonSet.prototype.selectEl = function(button){
  * Emits `select` (button) event
  *
  * @param {String} slug button to select
- * @api public
+ * @api private
  */
 
 ButtonSet.prototype.select = function(slug){
@@ -150,7 +172,7 @@ ButtonSet.prototype.select = function(slug){
  * Emits `deselect` (button) event
  *
  * @param {String} slug button to deselect
- * @api public
+ * @api private
  */
 
 ButtonSet.prototype.deselect = function(slug){
@@ -162,26 +184,16 @@ ButtonSet.prototype.deselect = function(slug){
  *
  * @param {String} slug button to select/deselect
  * @param {Boolean} set select (true) or deselect (false)
- * @api public
+ * @api private
  */
 
 ButtonSet.prototype.change = function(slug, set){
   var button = this.getButtonElement(slug);
   classes(button)[set ? 'add' : 'remove']('selected');
-  this.emit(set ? 'select' : 'deselect', button);
+  this.emit(set ? 'select' : 'deselect', button, slug);
   if (set) this.emit(slug); 
   return true;
 };
-
-/**
- * Get button element from slug
- *
- * @api public
- */
-
-ButtonSet.prototype.getButtonElement = function(slug) {
-  return this.el.querySelector('[data-'+this.buttonSlug+'='+slug+']'); 
-}
 
 
 /**

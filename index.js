@@ -113,11 +113,26 @@ ButtonSet.prototype.set = function(button){
 /**
  * Get button element from slug
  *
+ * @param {String} slug button slug
  * @api public
  */
 
 ButtonSet.prototype.getButtonElement = function(slug) {
   return this.el.querySelector('[data-'+this.buttonSlug+'='+slug+']'); 
+};
+
+
+/**
+ * Attach this.el to given element (or selector) 
+ *
+ * @param {Element|String} ref element or selector to attach to
+ * @api public
+ */
+
+ButtonSet.prototype.attachTo = function(ref) {
+  if ('string'== typeof ref) ref = document.querySelector(ref);
+  ref.appendChild(this.el);
+  return this;
 };
 
 /**

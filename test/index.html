@@ -64,19 +64,17 @@
         console.log('button D was pressed');
       });
 
-      document.querySelector('.buttonset-placeholder').appendChild(bset.el);
-
       var bset2 = new ButtonSet()
       bset2.add('Maradona').add('Pele').add('Van Basten').add('Beckenbauer'),
       bset2.select('van-basten');
       bset2.unselectable = true;
 
-      document.querySelector('.buttonset-placeholder-2').appendChild(bset2.el);
-
       var bset3 = new ButtonSet({multiple: true});
       bset3.add('Apple').add('Banana').add('Lemon').add('Strawberry').add('Peach')
 
-      document.querySelector('.buttonset-placeholder-3').appendChild(bset3.el);
+      bset.attachTo('.buttonset-placeholder');
+      bset2.attachTo('.buttonset-placeholder-2');
+      bset3.attachTo('.buttonset-placeholder-3');
 
     </script>
   </body>

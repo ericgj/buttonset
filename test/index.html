@@ -45,30 +45,32 @@
 
       var bset = new ButtonSet('.buttonset-placeholder');
       bset.add('A');
-      bset.add('B', 'C', 'D');
+      bset.add('B').add('C').add('D');
 
-      bset.set(1);
+      bset.select('b');
 
-      bset.on('set', function(button, index){
-        console.log('SET button "%s". index: %s', button.innerHTML, index);
+      bset.on('select', function(button){
+        console.log('SELECT button "%s".', button.innerHTML);
       });
 
-      bset.on('unset', function(button, index){
-        console.log('UNSET button "%s". index: %s', button.innerHTML, index);
+      bset.on('deselect', function(button){
+        console.log('DESELECT button "%s".', button.innerHTML);
       });
 
+      document.querySelector('.buttonset-placeholder').appendChild(bset.el);
 
-      var bset2 = new ButtonSet('.buttonset-placeholder-2', {
-        buttons: ['Maradona', 'Pele', 'Van Basten', 'Beckenbauer'],
-        select: 3,
-        unselectable: true
-      });
+      var bset2 = new ButtonSet()
+      bset2.add('Maradona').add('Pele').add('Van Basten').add('Beckenbauer'),
+      bset2.select('van-basten');
+      bset2.unselectable = true;
 
+      document.querySelector('.buttonset-placeholder-2').appendChild(bset2.el);
 
-      var bset3 = new ButtonSet(document.querySelector('.buttonset-placeholder-3'), {
-        buttons: ['Apple', 'Banana', 'Lemon', 'Strawberry', 'Peach'],
-        multiple: true
-      });
+      var bset3 = new ButtonSet({multiple: true});
+      bset3.add('Apple').add('Banana').add('Lemon').add('Strawberry').add('Peach')
+
+      document.querySelector('.buttonset-placeholder-3').appendChild(bset3.el);
+
     </script>
   </body>
 </html>

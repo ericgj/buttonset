@@ -1,5 +1,3 @@
-
-
 /**
  * Module dependencies.
  */
@@ -9,7 +7,6 @@ var Emitter   = require('emitter')
   , classes   = require('classes')
   , data      = require('data')
   , domify    = require('domify')
-  , tmplBtn   = require('./template-button');
 
 /**
  * Expose `ButtonSet`.
@@ -20,48 +17,28 @@ module.exports = ButtonSet;
 /**
  * Initialize a new `ButtonSet`.
  *
- * @param {Element|String} el reference (container) element
- * @param {Object} opts options
+ * Emits:
  *
- *  - buttons {Array} initial buttons
- *  - unselectable {Boolean} allows unset the current selected option (default false)
- *  - multiple {Boolean} allows multiple selections (default false)
- *  - select {Number} allows select initial option
- *  - indexattr {String} data- attribute for storing button index (default 'button-index')
- *
- * @api public
+ *  - "remove":   when button removed
+ *  - "select":   when button selected
+ *  - "deselect": when button deselected
+ *  - * :         button slug events are emitted when clicked 
  */
 
-function ButtonSet(el, opts) {
-  if (!(this instanceof ButtonSet)) return new ButtonSet(el, opts);
+function ButtonSet(opts) {
+  if (!(this instanceof ButtonSet)) return new ButtonSet(opts);
   Emitter.call(this);
 
-  this.el = (('string' == typeof el) ? document.querySelector(el) : el);
-  classes(this.el).add('buttonset');
-  this.options = opts || {};
-  this.length = 0;
+  this.el = domify('<div class=buttonset>')[0];
 
-  // force unselectable if buttonset is multiple
-  if (this.options.multiple) this.options.unselectable = true;
+  opts = opts || {};
+  this.multiple = !!(opts['multiple']);
+  // note force unselectable if buttonset is multiple
+  this.unselectable = (!!(opts['unselectable']) || this.multiple);
+  this.buttonSlug = opts['buttonSlug'] || 'button-slug'
 
-  // set button index attribute or default
-  this.options.indexattr = this.options.indexattr || 'button-index';
-
-  // add buttons
-  if (this.options.buttons) {
-    for (var i = 0; i < this.options.buttons.length; i++) {
-      this.add(this.options.buttons[i]);
-    }
-  }
-
-  // bind click event from child buttons to onSet
-  delegate.bind(this.el, 
-                this.getButtonTemplate().nodeName, 'click', 
-                this.onSet.bind(this)
-               );
-
-  // set initial select index if given
-  if ('undefined' != typeof this.options.select) this.set(this.options.select);
+  // bind click event from child buttons to onclick
+  delegate.bind(this.el, 'button', 'click', this.onclick.bind(this));
 
   return this;
 }
@@ -70,110 +47,140 @@ function ButtonSet(el, opts) {
  * Inherits from `Emitter.prototype`.
  */
 
-ButtonSet.prototype.__proto__ = Emitter.prototype;
+ButtonSet.prototype = new Emitter;
 
 /**
  * Add a new button option
  *
- * @param {String} button button/buttons to add
+ * @param {String} text button text/html to add
+ * @param {Function} fn onclick handler for button (optional)
  * @api public
  */
 
-ButtonSet.prototype.add = function(){
-  for (var i = 0; i < arguments.length; i++) {
-    var b = this.getButtonTemplate().cloneNode(true);
-    b.innerHTML = arguments[i];
-    b.setAttribute('data-'+this.options.indexattr, this.length++);
-    this.el.appendChild(b);
-  }
+ButtonSet.prototype.add = function(text,fn){
+  var slug;
+  // slug, text, [fn]
+  if ('string' == typeof fn) {
+    slug = text;
+    text = fn;
+    fn = arguments[2];
+  } else {
+    slug = createSlug(text);
+  };
+  
+  var b = domify('<button>')[0];
+  b.innerHTML = text;
+  b.setAttribute('data-'+this.buttonSlug, slug); 
+  if (fn) b.onclick = function(e){fn(e)};
+  this.el.appendChild(b);
+
+  return this;
+};
+
+ButtonSet.prototype.remove = function(slug){
+  var b = this.getButtonElement(slug);
+  this.emit('remove', slug);
+  this.el.removeChild(b);
   return this;
 };
 
 /**
- * onSet event
+ * onclick event handler (delegated from button)
  *
  * @param {Object} e event object
  * @api private
  */
 
-ButtonSet.prototype.onSet = function(e){
+ButtonSet.prototype.onclick = function(e){
   if (classes(e.target).has('selected')) {
-    if (!this.options.unselectable) return;
-    return this.unset(e.target);
+    if (!this.unselectable) return;
+    return this.deselectEl(e.target);
   }
 
-  if (!this.options.multiple) {
+  if (!this.multiple) {
     var selected = this.el.querySelectorAll('.selected');
     if (selected.length) {
       for (var i=0; i<selected.length; i++) {
-        this.unset(selected[i]);
+        this.deselectEl(selected[i]);
       }
     }
   }
 
-  this.set(e.target);
+  return this.selectEl(e.target);
+};
+
+ButtonSet.prototype.deselectEl = function(button){
+  return this.deselect(data(button).get('button-slug'));
+};
+
+ButtonSet.prototype.selectEl = function(button){
+  return this.select(data(button).get('button-slug'));
 };
 
 /**
- * Set the given button
+ * Select the given button
  *
- * Emits `set` (el, index) event
+ * Emits `select` (button) event
  *
- * @param {Element|Number} button option to select
+ * @param {String} slug button to select
  * @api public
  */
 
-ButtonSet.prototype.set = function(button){
-  return this.change(button, true);
+ButtonSet.prototype.select = function(slug){
+  return this.change(slug, true);
 };
 
 /**
- * Unset the given button
+ * Deselect the given button
  *
- * Emits `unset` (el, index) event
+ * Emits `deselect` (button) event
  *
- * @param {Element|Number} button option to select
+ * @param {String} slug button to deselect
  * @api public
  */
 
-ButtonSet.prototype.unset = function(button){
-  return this.change(button, false);
+ButtonSet.prototype.deselect = function(slug){
+  return this.change(slug, false);
 };
 
 /**
- * Set/Unset the given button
+ * Select/Deselect the given button
  *
- * @param {Element|Number} button option to select
- * @param {Boolean} set defines set or unset button
- * @api private
+ * @param {String} slug button to select/deselect
+ * @param {Boolean} set select (true) or deselect (false)
+ * @api public
  */
 
-ButtonSet.prototype.change = function(button, set){
-  button = 'number' == typeof button ? this.el.children[button] : button;
-  var index = this.getButtonIndex(button);
-
+ButtonSet.prototype.change = function(slug, set){
+  var button = this.getButtonElement(slug);
   classes(button)[set ? 'add' : 'remove']('selected');
-  this.emit(set ? 'set' : 'unset', button, this.getButtonIndex(button));
+  this.emit(set ? 'select' : 'deselect', button);
+  if (set) this.emit(slug); 
   return true;
 };
 
 /**
- * Get button element from template (memoized)
- *
- * @api private
- */
-
-ButtonSet.prototype.getButtonTemplate = function() {
-  return this.buttonTemplate || (this.buttonTemplate = domify(tmplBtn)[0]);
-}
-
-/**
- * Get button index element from data- attribute
+ * Get button element from slug
  *
  * @api public
  */
 
-ButtonSet.prototype.getButtonIndex = function(button) {
-  return data(button).get(this.options.indexattr);
+ButtonSet.prototype.getButtonElement = function(slug) {
+  return this.el.querySelector('[data-'+this.buttonSlug+'='+slug+']'); 
 }
 
+
+/**
+ * Generate a slug from `str`.
+ *
+ * @param {String} str
+ * @return {String}
+ * @api private
+ */
+
+function createSlug(str) {
+  return String(str)
+    .toLowerCase()
+    .replace(/ +/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+};

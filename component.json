@@ -1,8 +1,8 @@
 {
   "name": "buttonset",
-  "repo": "RetroFOX/buttonset",
+  "repo": "ericgj/buttonset",
   "description": "Buttonset component",
-  "version": "0.0.3",
+  "version": "0.1.1",
   "keywords": ["buttonset"],
   "dependencies": {
     "component/emitter": "*",
@@ -13,8 +13,7 @@
   },
   "development": {},
   "scripts": [
-    "index.js",
-    "template-button.js"
+    "index.js"
   ],
   "styles": [
     "buttonset.css"

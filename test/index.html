@@ -56,6 +56,10 @@
       bset.on('deselect', function(button){
         console.log('DESELECT button "%s".', button.innerHTML);
       });
+      
+      bset.on('d', function(){
+        console.log('button D was pressed');
+      });
 
       document.querySelector('.buttonset-placeholder').appendChild(bset.el);
 

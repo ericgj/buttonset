@@ -109,16 +109,30 @@ ButtonSet.prototype.onclick = function(e){
   return this.selectEl(e.target);
 };
 
+/**
+ * Deselect button 
+ *
+ * @param {Object} button element to deselect 
+ * @api private
+ */
+
 ButtonSet.prototype.deselectEl = function(button){
   return this.deselect(data(button).get('button-slug'));
 };
+
+/**
+ * Select button 
+ *
+ * @param {Object} button element to select 
+ * @api private
+ */
 
 ButtonSet.prototype.selectEl = function(button){
   return this.select(data(button).get('button-slug'));
 };
 
 /**
- * Select the given button
+ * Select the given button (identified by slug)
  *
  * Emits `select` (button) event
  *
@@ -131,7 +145,7 @@ ButtonSet.prototype.select = function(slug){
 };
 
 /**
- * Deselect the given button
+ * Deselect the given button (identified by slug)
  *
  * Emits `deselect` (button) event
  *

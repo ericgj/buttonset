@@ -50,7 +50,7 @@
         alert('a special button was clicked!');
       });
 
-      bset.select('b');
+      bset.setInput('b');
 
       bset.on('select', function(button){
         console.log('SELECT button "%s".', button.innerHTML);
@@ -66,7 +66,7 @@
 
       var bset2 = new ButtonSet()
       bset2.add('Maradona').add('Pele').add('Van Basten').add('Beckenbauer'),
-      bset2.select('van-basten');
+      bset2.set('van-basten');
       bset2.unselectable = true;
 
       var bset3 = new ButtonSet({multiple: true});

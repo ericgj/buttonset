@@ -111,6 +111,16 @@ ButtonSet.prototype.set = function(button){
 };
 
 /**
+ * Alias for +set+
+ *
+ * @param {String} button slug
+ * @api public
+ */
+ButtonSet.prototype.setInput = function(slug){
+  return this.set(slug);
+};
+
+/**
  * Get button element from slug
  *
  * @param {String} slug button slug

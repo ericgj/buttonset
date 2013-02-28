@@ -2,7 +2,7 @@
   "name": "buttonset",
   "repo": "ericgj/buttonset",
   "description": "Buttonset component",
-  "version": "0.3.1",
+  "version": "1.0.1",
   "keywords": [
     "buttonset",
     "buttongroup",
@@ -11,18 +11,18 @@
     "ui"
   ],
   "dependencies": {
+    "ericgj/reactive": "*",
     "component/emitter": "*",
-    "component/delegate": "*",
-    "component/classes": "*",
-    "component/domify": "*",
-    "component/event": "*",
-    "yields/data": "*"
+    "component/domify": "*"
   },
   "development": {},
   "scripts": [
-    "index.js"
+    "view.js",
+    "model.js",
+    "template.js"
   ],
   "styles": [
     "buttonset.css"
-  ]
+  ],
+  "main": "model.js"
 }

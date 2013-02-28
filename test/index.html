@@ -31,51 +31,27 @@
   <body>
     <h1>Buttonset</h1>
     <p>unselectable: <strong>false</strong><br /> multiple: <strong>false</strong></p>
-    <p class="buttonset-placeholder"></p>
+    <p id="buttonset-placeholder"></p>
     <hr />
     <p>unselectable: <strong>true</strong><br /> multiple: <strong>false</strong></p>
-    <p class="buttonset-placeholder-2"></p>
+    <p id="buttonset-placeholder-2"></p>
     <hr />
     <p>unselectable: <strong>true</strong><br /> multiple: <strong>true</strong></p>
-    <p class="buttonset-placeholder-3"></p>
+    <p id="buttonset-placeholder-3"></p>
     <hr />
     <script src="../build/build.js"></script>
     <script>
-      var ButtonSet = require('buttonset');
+      var ButtonSet = require('buttonset/model.js')
+        , ButtonSetView = require('buttonset/view.js')
 
-      var bset = new ButtonSet('.buttonset-placeholder');
+      var bset = new ButtonSet();
       bset.add('A');
-      bset.add('B').add('C')
-      bset.add('special', 'D', function(){ 
-        alert('a special button was clicked!');
-      });
+      bset.add('B').add('C');
+      bset.add('special', 'D');
 
-      bset.setInput('b');
+      var view = ButtonSetView(bset);
 
-      bset.on('select', function(button){
-        console.log('SELECT button "%s".', button.innerHTML);
-      });
-
-      bset.on('deselect', function(button){
-        console.log('DESELECT button "%s".', button.innerHTML);
-      });
-      
-      bset.on('special', function(){
-        console.log('button D was pressed');
-      });
-
-      var bset2 = new ButtonSet()
-      bset2.add('Maradona').add('Pele').add('Van Basten').add('Beckenbauer'),
-      bset2.set('van-basten');
-      bset2.unselectable = true;
-
-      var bset3 = new ButtonSet({multiple: true});
-      bset3.add('Apple').add('Banana').add('Lemon').add('Strawberry').add('Peach')
-
-      bset.attachTo('.buttonset-placeholder');
-      bset2.attachTo('.buttonset-placeholder-2');
-      bset3.attachTo('.buttonset-placeholder-3');
-
+      document.getElementById('buttonset-placeholder').appendChild(view.el);
     </script>
   </body>
 </html>

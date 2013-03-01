@@ -38,6 +38,6 @@ Rivets.binders['class-*'] = function(el,value){
 };
 
 Rivets.binders.selected = function(el,value){
-  classes(el.parentNode)[(!!value ? 'add' : 'remove')]('selected');
+  classes(el)[(!!value ? 'add' : 'remove')]('selected');
 };
 

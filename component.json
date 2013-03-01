@@ -11,12 +11,16 @@
     "ui"
   ],
   "dependencies": {
-    "ericgj/reactive": "*",
+    "mikeric/rivets": "*",
     "component/emitter": "*",
-    "component/domify": "*"
+    "timoxley/react": "*",
+    "component/domify": "*",
+    "component/classes": "*",
+    "component/css": "*"
   },
   "development": {},
   "scripts": [
+    "rivets-shim.js",
     "view.js",
     "model.js",
     "template.js"

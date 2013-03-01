@@ -1,9 +1,9 @@
 <ul class="buttonset">
-  <li each="button in buttons">
+  <li data-each-button=":buttons">
     <a data-show="button.shown" 
-       on-click="button.select" 
+       data-on-click="button.select" 
        data-text="button.label"
-       data-checked="button.selected"
+       data-selected="button.selected"
        href="#"></a>
   </li>
 </ul>

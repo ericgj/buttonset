@@ -1,4 +1,5 @@
-var Emitter = require('emitter')
+var Emitter = require('emitter'),
+    react   = require('react')
 
 module.exports = ButtonSet;
 
@@ -29,6 +30,7 @@ function Button(bset,label,slug){
   this.slug  = slug || createSlug(label);
   this.selected = false;
   this.shown = true;
+  return react(this);
 };
 
 Button.prototype.select = function(){

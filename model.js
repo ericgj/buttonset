@@ -3,11 +3,31 @@ var Emitter = require('emitter'),
 
 module.exports = ButtonSet;
 
-function ButtonSet(){
-  this.buttons = [];
-  for (var i=0;i<arguments.length;++i) {
-    this.add(arguments[i]);
+Behaviors = {
+  button: {
+    deselect: function(btn){ btn.deselect() },
+    noop: function(){}
+  },
+  buttonset: {
+    noop: function(){},
+    deselect: function(bset){ bset.deselect() }
   }
+};
+
+function ButtonSet(opts){
+  opts = opts || {};
+  this.buttonBehavior = 
+    opts.unselectable ? 
+      Behaviors.button.deselect :
+      Behaviors.button.noop
+
+  this.buttonsetBehavior = 
+    opts.multiple ?
+      Behaviors.buttonset.noop :
+      Behaviors.buttonset.deselect
+                                 
+  this.buttons = [];
+  return this;
 };
 
 ButtonSet.prototype = new Emitter();
@@ -24,6 +44,7 @@ ButtonSet.prototype.deselect = function(){
   return this;
 };
 
+
 function Button(bset,label,slug){
   this.bset  = bset;
   this.label = label;
@@ -34,8 +55,10 @@ function Button(bset,label,slug){
 };
 
 Button.prototype.select = function(){
-  if (this.selected) return;
-  this.bset.deselect();
+  if (this.selected){
+    this.bset.buttonBehavior(this); return;
+  }
+  this.bset.buttonsetBehavior(this.bset);
   this.selected = true;
   this.bset.emit('select', this.slug, this.label);
   this.bset.emit(this.slug, this.label);

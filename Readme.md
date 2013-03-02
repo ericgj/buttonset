@@ -9,58 +9,93 @@
 ## Installation
 
 ```
-$ npm install buttonset-component
+$ component install ericgj/buttonset
 ```
 
 ## Events
 
-  - `set` (button, index) when an button is selected.
-  - `unset` (button, index) when an button is unselected.
+  - `select` (button) when a button is selected.
+  - `<slug>` (button) when a button is selected.
+  - `deselect` (button) when a button is deselected.
+  - `show` (button) when a button is shown.
+  - `hide` (button) when a button is hidden.
 
 ## Example
 
 ```js
 var ButtonSet = require('buttonset');
 
-var bset = new ButtonSet('.buttonset-placeholder');
+var bset = new ButtonSet();
 bset.add('A');
 bset.add('B', 'C', 'D');
 
-bset.set(1);
+bset.buttons[1].select();
 
-bset.on('set', function(button, index){
-  console.log('SET button "%s". index: %s', button.text(), index);
+bset.on('select', function(button){
+  console.log('SELECT button "%s". label: %s', button.slug, button.label);
 });
 
-bset.on('unset', function(button, index){
-  console.log('UNSET button "%s". index: %s', button.text(), index);
+bset.on('deselect', function(button){
+  console.log('DESELECT button "%s". label: %s', button.slug, button.label);
 });
+
+// slug-based event handling
+bset.on('d', function(){ alert('D was pressed!'); });
+
 ```
 
 ## API
 
-### ButtonSet(el, options)
+### ButtonSet(options)
 
-  Creates a new `ButtonSet` append to the given el element with the follows (optional) options.
+  Creates a new `ButtonSet` with the following (optional) options.
 
-  - buttons {Array} initial buttons
   - unselectable {Boolean} allows unset the current selected option (default false)
   - multiple {Boolean} allows multiple selections (default false)
-  - select {Number} allows select initial option
 
-### ButtonSet#set(button)
+### ButtonSet#add(label,slug)
 
-  Add `button` to the buttonset.
+  Add a button with the given label and (optional) slug to the buttonset.
+  The `slug` is used to emit button-select events.
 
-### ButtonSet#unset(button)
+### ButtonSet#deselect
 
-  Unset `button` from the buttonset, returning __true__ when present,
-  otherwise returning __false__.
+  Deselect all buttons in buttonset.
 
+### ButtonSet#buttons
+  
+  Array of buttons in buttonset
+  
+
+### Button#select
+
+  Select button (emulate click on button element) 
+
+### Button#deselect
+
+  Deselect button
+
+### Button#show
+
+  Show button
+
+### Button#hide
+
+  Hide button
+
+
+## Implementation notes
+
+  This is a jQuery-free implementation, API adapted from 
+  [retrofox/buttonset](http://github.com/retrofox/buttonset)
+
+  It is designed to showcase the use of declarative, two-way, iteration binding with 
+  [rivets.js](http://rivetsjs.com).
+  
 ## License
 
 (The MIT License)
-Copyright(c) 2012 Damian Suarez <rdsuarez@gmail.com>
+Copyright(c) 2013 Eric Gjertsen <ericgj72@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

@@ -60,24 +60,24 @@ Button.prototype.select = function(){
   }
   this.bset.buttonsetBehavior(this.bset);
   this.selected = true;
-  this.bset.emit('select', this.slug, this.label);
-  this.bset.emit(this.slug, this.label);
+  this.bset.emit('select', this);
+  this.bset.emit(this.slug, this);
 };
 
 Button.prototype.deselect = function(){
   if (!(this.selected)) return;
   this.selected = false;
-  this.bset.emit('deselect', this.slug, this.label);
+  this.bset.emit('deselect', this);
 };
 
 Button.prototype.show = function(){
   this.shown = true;
-  this.bset.emit('show', this.slug, this.label);
+  this.bset.emit('show', this);
 };
 
 Button.prototype.hide = function(){
   this.shown = false;
-  this.bset.emit('hide', this.slug, this.label);
+  this.bset.emit('hide', this);
 };
 
 

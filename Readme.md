@@ -94,8 +94,11 @@ bset.on('d', function(){ alert('D was pressed!'); });
   
 ## License
 
-(The MIT License)
+(The MIT License) <br/>
 Copyright(c) 2013 Eric Gjertsen <ericgj72@gmail.com>
+
+Adapted from API/code <br/>
+Copyright(c) 2012 Damian Suarez <rdsuarez@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

@@ -1,5 +1,6 @@
 var Emitter = require('emitter'),
     react   = require('react')
+    find    = require('find')
 
 module.exports = ButtonSet;
 
@@ -42,6 +43,12 @@ ButtonSet.prototype.deselect = function(){
     button.deselect();
   });
   return this;
+};
+
+ButtonSet.prototype.button = function(id){
+  if ("number" == typeof id) return this.buttons[id];
+  return find(this.buttons, {slug: id}) ||
+         find(this.buttons, {label: id});
 };
 
 

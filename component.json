@@ -2,7 +2,7 @@
   "name": "buttonset",
   "repo": "ericgj/buttonset",
   "description": "Buttonset component",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "keywords": [
     "buttonset",
     "buttongroup",
@@ -16,7 +16,8 @@
     "timoxley/react": "*",
     "component/domify": "*",
     "component/classes": "*",
-    "component/css": "*"
+    "component/css": "*",
+    "component/find": "*"
   },
   "development": {},
   "scripts": [

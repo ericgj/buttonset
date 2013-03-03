@@ -49,8 +49,6 @@
       bset.add('B').add('C');
       bset.add('D','special');
 
-      bset.buttons[2].select();
-
       bset.on('select', function(button){
         console.log('SELECT button "%s". label: %s', button.slug, button.label);
       });
@@ -62,6 +60,7 @@
       // slug-based event handling
       bset.on('special', function(){ alert('D was pressed!'); });
 
+      bset.button('special').select();
 
       var bset2 = new ButtonSet({unselectable: true, multiple: false});
       bset2.add('Maradona')
@@ -69,12 +68,16 @@
            .add('Van Basten')
            .add('Beckenbauer');
 
+      bset2.button('Van Basten').select();
+
       var bset3 = new ButtonSet({unselectable: true, multiple: true});
       bset3.add('Apple')
            .add('Banana')
            .add('Lemon')
            .add('Strawberry')
            .add('Peach');
+
+      bset3.button(2).select();
 
       var view = ButtonSetView(bset)
         , view2= ButtonSetView(bset2)

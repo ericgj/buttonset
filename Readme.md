@@ -29,8 +29,6 @@ var bset = new ButtonSet();
 bset.add('A');
 bset.add('B', 'C', 'D');
 
-bset.buttons[1].select();
-
 bset.on('select', function(button){
   console.log('SELECT button "%s". label: %s', button.slug, button.label);
 });
@@ -41,6 +39,8 @@ bset.on('deselect', function(button){
 
 // slug-based event handling
 bset.on('d', function(){ alert('D was pressed!'); });
+
+bset.button('special').select();
 
 ```
 
@@ -62,10 +62,10 @@ bset.on('d', function(){ alert('D was pressed!'); });
 
   Deselect all buttons in buttonset.
 
-### ButtonSet#buttons
+### ButtonSet#button(id)
   
-  Array of buttons in buttonset
-  
+  Button accessor by array position, button slug or button label.
+
 
 ### Button#select
 

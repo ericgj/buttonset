@@ -9,6 +9,7 @@ module.exports = ButtonSetView;
 function ButtonSetView(model){
   if (!(this instanceof ButtonSetView)) return new ButtonSetView(model);
   this.el = domify(template)[0];
+  this.model = model;
   binder(this.el, model);
 };
 

@@ -1,1 +1,1 @@
-module.exports = '<div class="buttonset"> \n  <a data-each-button=":buttons"\n     data-show="button.shown" \n     data-on-click="button.select" \n     data-text="button.label"\n     data-selected="button.selected"\n     href="#"></a>\n</div>\n\n';
+module.exports = '<div class="buttonset"> \n  <a data-each-button=":buttons"\n     data-show="button.shown" \n     data-on-click="button.select" \n     data-text="button.label"\n     data-selected="button.selected"\n     data-data-button-slug="button.slug"\n     href="#"></a>\n</div>\n\n';

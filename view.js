@@ -12,4 +12,23 @@ function ButtonSetView(model){
   binder(this.el, model);
 };
 
+ButtonSetView.prototype.button = function(slug){
+  return this.el.querySelector('[data-button-slug='+createSlug(slug)+']');
+};
+
+
+/**
+ * Generate a slug from `str`.
+ *
+ * @param {String} str
+ * @return {String}
+ * @api private
+ */
+
+function createSlug(str) {
+  return String(str)
+    .toLowerCase()
+    .replace(/ +/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+};
 

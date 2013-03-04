@@ -45,6 +45,9 @@ bset.button('special').select();
 // view binding
 var view = ButtonSetView(bset);
 
+// adding a dropdown
+view.dropdown('C', someMenu);
+
 // DOM insertion
 document.getElementById('my-buttonset').appendChild(view.el);
 

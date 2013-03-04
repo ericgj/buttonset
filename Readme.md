@@ -27,7 +27,7 @@ var ButtonSet = require('buttonset'),
 
 var bset = new ButtonSet();
 bset.add('A');
-bset.add('B').add('C').add('D');
+bset.add('B').add('C').add('D','special');
 
 bset.on('select', function(button){
   console.log('SELECT button "%s". label: %s', button.slug, button.label);
@@ -38,7 +38,7 @@ bset.on('deselect', function(button){
 });
 
 // slug-based event handling
-bset.on('d', function(){ alert('D was pressed!'); });
+bset.on('special', function(){ alert('D was pressed!'); });
 
 // triggering a button click
 bset.button('special').select();

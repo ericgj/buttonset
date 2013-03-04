@@ -1,10 +1,9 @@
 
 # ButtonSet
 
-  ButtonSet component
+  ButtonSet component, now with dropdown support
 
-  ![js buttonset
-  component, now with dropdown support](http://imgur.com/Odolaeo.png)
+  ![js buttonset component](http://imgur.com/Odolaeo.png)
 
 ## Installation
 

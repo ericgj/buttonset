@@ -4,7 +4,7 @@
   ButtonSet component
 
   ![js buttonset
-  component](http://f.cl.ly/items/2T2j301q1M0K0P3a1h21/Screen%20Shot%202012-09-19%20at%206.01.08%20PM.png)
+  component, now with dropdown support](http://imgur.com/Odolaeo.png)
 
 ## Installation
 
@@ -23,7 +23,8 @@ $ component install ericgj/buttonset
 ## Example
 
 ```js
-var ButtonSet = require('buttonset');
+var ButtonSet = require('buttonset'),
+    ButtonSetView = require('buttonset/view.js');
 
 var bset = new ButtonSet();
 bset.add('A');
@@ -41,6 +42,12 @@ bset.on('deselect', function(button){
 bset.on('d', function(){ alert('D was pressed!'); });
 
 bset.button('special').select();
+
+// view binding
+var view = ButtonSetView(bset);
+
+// DOM insertion
+document.getElementById('my-buttonset').appendChild(view.el);
 
 ```
 
@@ -66,6 +73,7 @@ bset.button('special').select();
   
   Button accessor by array position, button slug or button label.
 
+-----
 
 ### Button#select
 
@@ -82,6 +90,17 @@ bset.button('special').select();
 ### Button#hide
 
   Hide button
+
+-----
+
+### ButtonSetView#button(slug)
+
+   Button element accessor by button slug
+
+### ButtonSetView#dropdown(slug, menu)
+
+   Display dropdown menu at given button. 
+   Note that `menu` must respond to `#attachTo(el)` and emit `select`.
 
 
 ## Implementation notes

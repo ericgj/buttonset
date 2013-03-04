@@ -43,7 +43,4 @@ Rivets.binders.selected = function(el,value){
   classes(el)[(!!value ? 'add' : 'remove')]('selected');
 };
 
-Rivets.binders['button-dropdown'] = function(el,value){
-  if (!value) el.parentNode.removeChild(el);
-};
 

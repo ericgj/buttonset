@@ -39,10 +39,14 @@
     <p>unselectable: <strong>true</strong><br /> multiple: <strong>true</strong></p>
     <p id="buttonset-placeholder-3"></p>
     <hr />
+    <p>with dropdown</p>
+    <p id="buttonset-placeholder-4"></p>
+    <hr />
     <script src="../build/build.js"></script>
     <script>
       var ButtonSet = require('buttonset/model.js')
         , ButtonSetView = require('buttonset/view.js')
+        , Menu      = require('ericgj-dropdown')
 
       var bset = new ButtonSet();
       bset.add('A');
@@ -58,10 +62,9 @@
       });
 
       // slug-based event handling
-      bset.on('special', function(){ alert('D was pressed!'); });
+      bset.on('special', function(){ alert('You hit the jackpot!!!'); });
 
-      bset.button('special').dropdown = true;
-      bset.button('special').select();
+      bset.button('C').select();
 
       var bset2 = new ButtonSet({unselectable: true, multiple: false});
       bset2.add('Maradona')
@@ -79,14 +82,24 @@
            .add('Peach');
 
       bset3.button(2).select();
-
+      bset3.button(4).select();
+      
+      var bset4 = new ButtonSet();
+      bset4.add('Oats').add('Peas').add('Beans');
+    
       var view = ButtonSetView(bset)
         , view2= ButtonSetView(bset2)
-        , view3= ButtonSetView(bset3);
+        , view3= ButtonSetView(bset3)
+        , view4= ButtonSetView(bset4);
+
+      var menu = Menu();
+      menu.add('Pinto').add('Black').add('Kidney');
+      view4.dropdown('beans', menu);
 
       document.getElementById('buttonset-placeholder').appendChild(view.el);
       document.getElementById('buttonset-placeholder-2').appendChild(view2.el);
       document.getElementById('buttonset-placeholder-3').appendChild(view3.el);
+      document.getElementById('buttonset-placeholder-4').appendChild(view4.el);
 
     </script>
   </body>

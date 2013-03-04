@@ -17,6 +17,13 @@ ButtonSetView.prototype.button = function(slug){
   return this.el.querySelector('[data-button-slug='+createSlug(slug)+']');
 };
 
+// menu must respond to attachTo and emit select
+ButtonSetView.prototype.dropdown = function(slug,menu){
+  var btn = this.model.button(slug)
+  btn.dropdown = true;
+  menu.on('select', btn.select.bind(btn));
+  menu.attachTo(this.button(slug));
+};
 
 /**
  * Generate a slug from `str`.

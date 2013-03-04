@@ -2,9 +2,11 @@
   <a data-each-button=":buttons"
      data-show="button.shown" 
      data-on-click="button.select" 
-     data-text="button.label"
      data-selected="button.selected"
      data-data-button-slug="button.slug"
-     href="#"></a>
+     href="#">
+    <span data-text="button.label"></span>
+    <span class="caret" data-button-dropdown="button.dropdown"></span>
+  </a>
 </div>
 

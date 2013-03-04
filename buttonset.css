@@ -2,5 +2,15 @@
   display: inline-block;
 }
 
-.buttonset a {
+.buttonset .caret {
+  display: inline-block;
+  vertical-align: top;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+  margin-top: 5px;
+  margin-left: 2px;
+  content: "";
 }

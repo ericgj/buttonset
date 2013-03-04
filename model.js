@@ -58,6 +58,7 @@ function Button(bset,label,slug){
   this.slug  = slug || createSlug(label);
   this.selected = false;
   this.shown = true;
+  this.dropdown = false;
   return react(this);
 };
 

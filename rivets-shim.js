@@ -37,7 +37,13 @@ Rivets.binders['class-*'] = function(el,value){
   classes(el)[(!!value ? 'add' : 'remove')](this.args[0]);
 };
 
+// custom binders
+
 Rivets.binders.selected = function(el,value){
   classes(el)[(!!value ? 'add' : 'remove')]('selected');
+};
+
+Rivets.binders['button-dropdown'] = function(el,value){
+  if (!value) el.parentNode.removeChild(el);
 };
 

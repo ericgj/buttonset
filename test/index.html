@@ -60,6 +60,7 @@
       // slug-based event handling
       bset.on('special', function(){ alert('D was pressed!'); });
 
+      bset.button('special').dropdown = true;
       bset.button('special').select();
 
       var bset2 = new ButtonSet({unselectable: true, multiple: false});
